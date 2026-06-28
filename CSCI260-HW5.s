@@ -25,27 +25,43 @@ main:
 # DONOTMODIFYTHISLINE
 # YOUR CODE STARTS HERE
 
+# ------------------------------------------------------------
 lw t0, 0(s0)          # s0 contains the memory address. Load the value stored there into t0.
+# ------------------------------------------------------------
 
+# ------------------------------------------------------------
+# IF it's negative (< 0) -> Teleport to force_0
 blt t0, x0, force_0   # If t0 [value derived from "lw t0, 0(s0)"] < 0, branch to force_0.
+# ------------------------------------------------------------
 
+# ------------------------------------------------------------
 # Since we can't use 'li', build 255 using addi.
 addi t1, x0, 255      # t1 = 255; t1 = 0 + 255
+# IF it's too big (> 255) -> Teleport to force_255 
 blt t1, t0, force_255 # If 255 < t0, then t0 > 255, so branch to force_255.
+# ------------------------------------------------------------
 
+# ------------------------------------------------------------
 # If neither branch was taken, the value is between 0 and 255.
 # Skip the correction code and go directly to saving it.
 jal x0, save_to_ram   # Use jal x0 as an unconditional jump.
+# ------------------------------------------------------------
 
+# ------------------------------------------------------------
 force_0:
 addi t0, x0, 0        # Replace the negative value with 0.
 jal x0, save_to_ram   # Skip the force_255 code.
+# ------------------------------------------------------------
 
+# ------------------------------------------------------------
 force_255:
 addi t0, x0, 255      # Replace the value with the maximum allowed value (255).
+# ------------------------------------------------------------
 
+# ------------------------------------------------------------
 save_to_ram:
 sw t0, 0(s0)          # Store the final value back into memory.
+# ------------------------------------------------------------
 
 # YOUR CODE ENDS HERE
 # DONOTMODIFYTHISLINE
