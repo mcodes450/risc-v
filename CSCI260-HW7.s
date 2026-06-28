@@ -1,5 +1,5 @@
 # Mohammed Uddin
-# CSCI 26000 - HW6: Set and clear bits
+# CSCI 26000 - HW7: Celsius to Fahrenheit
 # s0 = base of temperature array A (Celsius), s1 = length n.
 # Convert each reading to Fahrenheit in place: F = 2*C + 32.
 
