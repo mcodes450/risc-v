@@ -11,28 +11,26 @@ msg: .asciz "banana"
 
 .text
 main:
-    la s0, msg # address of the string (local-test setup)
-    li s1, 97 # target character 'a' (local-test setup)
+    la s0, msg        # address of the string (local-test setup)
+    li s1, 97         # target character 'a' (local-test setup)
 
 # DONOTMODIFYTHISLINE
 # YOUR CODE STARTS HERE
-# Count occurrences of character in null-terminated string
-# s0 = string pointer
-# s1 = target char
-# s2 = result count
 
-li s2, 0              # initialize count
+# s2 = 0 using real instruction (no li pseudo)
+addi s2, x0, 0        # initialize count = 0
 
 loop:
-    lb t0, 0(s0)      # load current character
-    beq t0, x0, done  # stop at null terminator
+    lb t0, 0(s0)      # load current character from string
 
-    bne t0, s1, next  # if not match, skip increment
-    addi s2, s2, 1    # increment if match
+    beq t0, x0, done  # if null terminator → exit loop
+
+    bne t0, s1, next  # if not match → skip increment
+    addi s2, s2, 1    # match found → increment counter
 
 next:
-    addi s0, s0, 1    # move to next char
-    j loop
+    addi s0, s0, 1    # move pointer to next character
+    jal x0, loop      # unconditional jump back (no pseudo j)
 
 done:
 
